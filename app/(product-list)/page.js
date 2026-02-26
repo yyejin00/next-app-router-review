@@ -1,3 +1,4 @@
-export default function productList() {
-  return <div>productList</div>;
+
+export default function Home() {
+  return <h1>homepage~!</h1>;
 }
