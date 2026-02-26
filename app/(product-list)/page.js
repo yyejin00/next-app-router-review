@@ -1,4 +1,10 @@
+import ProductsLists from './components/ProductsLists';
 
 export default function Home() {
-  return <h1>homepage~!</h1>;
+  return (
+    <div>
+      <h1>homepage~!</h1>
+      <ProductsLists />
+    </div>
+  );
 }
