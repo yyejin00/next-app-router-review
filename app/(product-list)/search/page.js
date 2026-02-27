@@ -1,4 +1,12 @@
+import { getProducts } from '@/lib/data';
+import ProductsLists from '../components/ProductsLists';
+
 export default async function Search({ searchParams }) {
   const { q } = await searchParams;
-  return <div>검색어: {q}</div>;
+  const { results: products } = await getProducts(q);
+  return (
+    <div>
+      <ProductsLists products={products} />
+    </div>
+  );
 }
