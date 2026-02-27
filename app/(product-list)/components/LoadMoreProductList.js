@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import ProductsLists from './ProductsLists';
 import { get } from '@/lib/fetch';
+import ProductList from './ProductList';
+import Button from '@/components/Button';
+import styles from './LoadMoreProductList.module.css';
 
 export default function LoadMoreProductList({
   initialProducts = [],
@@ -12,10 +14,12 @@ export default function LoadMoreProductList({
   const [next, setNext] = useState(initialNext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const handleLoadMore = async () => {
     try {
       setLoading(true);
       setError(null);
+
       const { results: moreProducts, next: nextUrl } = await get(next);
       setProducts((prev) => [...prev, ...moreProducts]);
       setNext(nextUrl);
@@ -29,17 +33,17 @@ export default function LoadMoreProductList({
 
   return (
     <div>
-      <ProductsLists products={products} />
+      <ProductList products={products} />
       {next && (
-        <button
-          style={{ marginTop: '20px' }}
-          onClick={handleLoadMore}
-          disabled={loading}
-        >
-          상품 더 보기
-        </button>
+        <div className={styles.loadMore}>
+          <Button onClick={handleLoadMore} disabled={loading}>
+            상품 더 보기
+          </Button>
+        </div>
       )}
-      {error && <div>상품을 더 불러오는데 실패했습니다.</div>}
+      {error && (
+        <div className={styles.error}>상품을 더 불러오는데 실패했습니다.</div>
+      )}
     </div>
   );
 }

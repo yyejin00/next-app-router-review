@@ -1,0 +1,20 @@
+.loadMore {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.error {
+  padding: 12px 16px;
+  color: #ff6b6b;
+  background-color: #2d1b1b;
+  border: 1px solid #ff6b6b;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+:global(.light) .error {
+  color: #d63031;
+  background-color: #ffe0e0;
+  border-color: #d63031;
+}

@@ -1,0 +1,45 @@
+.name {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 38px;
+}
+
+.englishName {
+  margin-left: 15px;
+  color: #a4a4a4;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+:global(.light) .englishName {
+  color: #747474;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.image {
+  overflow: hidden;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.info {
+  flex-grow: 1;
+}
+
+.section + .section {
+  margin-top: 45px;
+}
+
+.sectionTitle {
+  margin: 0 0 15px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 26px;
+}

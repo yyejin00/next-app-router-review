@@ -1,0 +1,16 @@
+.header {
+  padding: 31px 0;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.container {
+  max-width: 930px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.light) .header {
+  border-color: #e1e1e1;
+}

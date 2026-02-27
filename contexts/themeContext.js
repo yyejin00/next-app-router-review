@@ -6,6 +6,7 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('dark');
+
   useEffect(() => {
     document.body.classList.remove('light', 'dark');
     document.body.classList.add(theme);
@@ -27,4 +28,3 @@ export function useTheme() {
 
   return themeContext;
 }
-//zustand로 수정하기

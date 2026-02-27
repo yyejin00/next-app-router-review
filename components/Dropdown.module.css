@@ -1,0 +1,47 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.select {
+  width: 100%;
+  padding: 15px 26px;
+  padding-right: 50px;
+  color: #b5b5b5;
+  background: #252525;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+}
+
+:global(.light) .select {
+  color: #505050;
+  background-color: #e1e1e1;
+}
+
+.select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+:global(.light) .arrow {
+  color: #505050;
+}
+
+.arrowIcon {
+  transform: rotate(180deg);
+}

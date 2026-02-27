@@ -1,0 +1,10 @@
+.starRating {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.starIcon {
+  width: var(--star-size, 16px);
+  height: var(--star-size, 16px);
+}
