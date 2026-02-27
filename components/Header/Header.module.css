@@ -10,3 +10,6 @@
   align-items: center;
   justify-content: space-between;
 }
+:global(.light) .header {
+  border-color: #e1e1e1;
+}
