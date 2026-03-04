@@ -2,7 +2,12 @@ import ProductInfo from './components/ProductInfo';
 import SizeReviewList from './components/SizeReviewList';
 import { getProduct, getSizeReviews } from '@/lib/data';
 import styles from './page.module.css';
-
+import SizeReviewForm from './components/SizeReviewForm';
+import { get } from '@/lib/fetch';
+export async function generateStaticParams() {
+  const { results } = await get('/products?limit=100');
+  return results.map((product) => ({ id: product.id.toString() })); //객체임
+}
 export default async function Product({ params }) {
   const { id } = await params;
   const [product, { results: sizeReviews }] = await Promise.all([
@@ -35,6 +40,10 @@ export default async function Product({ params }) {
               <SizeReviewList sizeReviews={sizeReviews} />
             </section>
           )}
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>사이즈 추천하기</h2>
+            <SizeReviewForm product={product} />
+          </section>
         </div>
       </div>
     </>
