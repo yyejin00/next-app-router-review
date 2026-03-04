@@ -302,3 +302,30 @@ export async function getSizeReviews(productId) {
   return response;
 }
 ```
+- 로딩 처리
+  `<Suspense>`
+
+  코드는 위에서부터 아래로 읽는데, 현재 코드는 이미 2번째줄에서 데이터를 가져오기 때문에
+  suspense가 일어날 일이 없다.
+  그렇게되면 기다리는동안 로딩화면이 뜨는 것이아닌 그냥 빈화면만 확인하게 된다.
+  ```js
+  export default async function Home() {
+  const { results: products, next } = await getInitialProducts();
+
+  return (
+    <div>
+      <FeaturedBanner />
+      <Suspense fallback={<ProductListSkeleton />}>
+        <LoadMoreProductList
+          key="all"
+          initialProducts={products}
+          initialNext={next}
+        />
+      </Suspense>
+    </div>
+  );
+}
+  ```
+  해결방법:
+  suspense태그 안에 데이터를 불러오는 컴포넌트가 존재해야한다.
+  `ProductResults.js`라는 컴포넌트를 따로 만들어서 `(product-list)/Page.js`에서  

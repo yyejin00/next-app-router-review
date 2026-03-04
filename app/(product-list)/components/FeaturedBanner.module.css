@@ -1,0 +1,44 @@
+.container {
+  margin: 16px 0 24px;
+  padding: 16px 20px;
+  background: #1f1f1f;
+  color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.message {
+  opacity: 0.9;
+}
+
+.cta {
+  background: #e1e1e1;
+  color: #1f1f1f;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+:global(.light) .container {
+  background: #ffffff;
+  color: #121212;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+:global(.light) .cta {
+  background: #505050;
+  color: #f9f9f9;
+}
