@@ -4,6 +4,7 @@ import { getProduct, getSizeReviews } from '@/lib/data';
 import styles from './page.module.css';
 import SizeReviewForm from './components/SizeReviewForm';
 import { get } from '@/lib/fetch';
+import { notFound } from 'next/navigation';
 export async function generateStaticParams() {
   const { results } = await get('/products?limit=100');
   return results.map((product) => ({ id: product.id.toString() })); //객체임
@@ -14,7 +15,9 @@ export default async function Product({ params }) {
     getProduct(id),
     getSizeReviews(id),
   ]);
-
+  if(!product){
+    notFound(); 
+  }
   return (
     <>
       <h1 className={styles.name}>

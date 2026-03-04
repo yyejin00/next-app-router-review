@@ -306,13 +306,10 @@ export async function getSizeReviews(productId) {
 }
 ```
 
-- 로딩 처리
-  `<Suspense>`
-
+### 로딩 처리 `<Suspense>`
   코드는 위에서부터 아래로 읽는데, 현재 코드는 이미 2번째줄에서 데이터를 가져오기 때문에
   suspense가 일어날 일이 없다.
-  그렇게되면 기다리는동안 로딩화면이 뜨는 것이아닌 그냥 빈화면만 확인하게 된다.
-
+  그렇게되면 기다리는동안 로딩화면이 뜨는 것이 아닌 그냥 빈화면만 확인하게 된다.
   ```js
   export default async function Home() {
     const { results: products, next } = await getInitialProducts();
@@ -331,8 +328,7 @@ export async function getSizeReviews(productId) {
     );
   }
   ```
-
-  해결방법:
+  - 해결방법
   suspense태그 안에 데이터를 불러오는 컴포넌트가 존재해야한다.
   `ProductResults.js`라는 컴포넌트에서 fetch하게 따로 만들고,
   `(product-list)/Page.js`에서는 suspense 만사용하게 할 수 있다.
@@ -342,7 +338,7 @@ export async function getSizeReviews(productId) {
     loading.js 와 suspnese
     loading.js도 `<Suspense>`를 활용한다.
     페이지내용을 `<Suspense>`로 감싸고 loading.js를 fallback으로 사용한다.
-    `<Suspense>`동작
+    - `<Suspense>`동작
     렌더링의 첫번째 단계 서버컴포넌트를 실행
     커버컴포넌트에 `<Suspense>`로 감싼 부분이 있을 때 감싸진 컴포넌트(자식컴포넌트)가
     비동기로 기다린는 부분이 있다면 일단 렌더링을 `<Suspense>`하고 Fallback 컴포넌트로 대체한다.
@@ -357,3 +353,6 @@ export async function getSizeReviews(productId) {
   - PPR (Partial Preredendering)
     `use cache`
   - 
+## 웹사이트 완성도 높이기
+### error.js
+각 페이지별로 만들 필요는 없이 app폴더에 하나 작성해둔다.
