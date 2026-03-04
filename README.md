@@ -248,7 +248,7 @@ next.revalidate() : 캐싱시간
 export async function getInitialProducts(q = '') {
   const query = q ? `&q=${q}` : '';
   const response = await get(`/products?offset=0&limit=9${query}`, {
-    next: { revalidate: 10 },//⭐️
+    next: { revalidate: 10 }, //⭐️
   });
   return response;
 }
@@ -260,19 +260,22 @@ revalidate시간 이전에 리렌더링
 
 - 다이나믹 라우트
   staticParams()으로 렌더링할 라우트를 알려줄 수 있다.
+
 ```
 export async function generateStaticParams() {
   const { results } = await get('/products?limit=100');
   return results.map((product) => ({ id: product.id.toString() }));//객체로된 배열 리턴
 }
 ```
-  - 새상품이 생겨서 `products/[id]`가 추가될 때는?
+
+- 새상품이 생겨서 `products/[id]`가 추가될 때는?
   정적 렌더링된 페이지가 없다면 다이나믹 라우트 `page.js`코드를 실행해서 페이지를 실행하고 저장한다.
   `sizeReviewForm.js`에서
-  `revalidatePath(`/products/${sizeReview.productId}`);`를 사용했기 때문에 
+  `revalidatePath(`/products/${sizeReview.productId}`);`를 사용했기 때문에
   특정부분을 수동으로 리렌더링한 것!
   새롭게 무언가 추가될 때마다 갱신되는 화면을 확인할 수 있다.
-    - upDateTag('size-reviews'); next : {tag : ['size-reviews']}
+  - upDateTag('size-reviews'); next : {tag : ['size-reviews']}
+
 ```js
 export async function submitSizeReview(currentState, formData) {
   const data = Object.fromEntries(formData.entries());
@@ -302,30 +305,55 @@ export async function getSizeReviews(productId) {
   return response;
 }
 ```
+
 - 로딩 처리
   `<Suspense>`
 
   코드는 위에서부터 아래로 읽는데, 현재 코드는 이미 2번째줄에서 데이터를 가져오기 때문에
   suspense가 일어날 일이 없다.
   그렇게되면 기다리는동안 로딩화면이 뜨는 것이아닌 그냥 빈화면만 확인하게 된다.
+
   ```js
   export default async function Home() {
-  const { results: products, next } = await getInitialProducts();
+    const { results: products, next } = await getInitialProducts();
 
-  return (
-    <div>
-      <FeaturedBanner />
-      <Suspense fallback={<ProductListSkeleton />}>
-        <LoadMoreProductList
-          key="all"
-          initialProducts={products}
-          initialNext={next}
-        />
-      </Suspense>
-    </div>
-  );
-}
+    return (
+      <div>
+        <FeaturedBanner />
+        <Suspense fallback={<ProductListSkeleton />}>
+          <LoadMoreProductList
+            key="all"
+            initialProducts={products}
+            initialNext={next}
+          />
+        </Suspense>
+      </div>
+    );
+  }
   ```
+
   해결방법:
   suspense태그 안에 데이터를 불러오는 컴포넌트가 존재해야한다.
-  `ProductResults.js`라는 컴포넌트를 따로 만들어서 `(product-list)/Page.js`에서  
+  `ProductResults.js`라는 컴포넌트에서 fetch하게 따로 만들고,
+  `(product-list)/Page.js`에서는 suspense 만사용하게 할 수 있다.
+  또는 use 훅을 이용해서 서버 컴포넌트에서 await fetch()를 하고
+  결과를 클라이언트 컴포넌트의 prop으로 전달할 수도 있다.
+  - `<Suspense>`란?
+    loading.js 와 suspnese
+    loading.js도 `<Suspense>`를 활용한다.
+    페이지내용을 `<Suspense>`로 감싸고 loading.js를 fallback으로 사용한다.
+    `<Suspense>`동작
+    렌더링의 첫번째 단계 서버컴포넌트를 실행
+    커버컴포넌트에 `<Suspense>`로 감싼 부분이 있을 때 감싸진 컴포넌트(자식컴포넌트)가
+    비동기로 기다린는 부분이 있다면 일단 렌더링을 `<Suspense>`하고 Fallback 컴포넌트로 대체한다.
+    이런 상태로 RSC Payload + html 파일을 클라이언트로 보낸다.
+    이때 클라이언트는 fallback 컴포넌트(skeleton)을 보여준다.
+    렌더링이 다되었다면, 자식컴포넌트의 rsc payload를 클라이언트에게 보내주고 클라이언트는
+    fallback 부분대신 보여주게 된다.
+
+  스트리밍 : 위와 같은 방식으로 부분부분 준비되는대로 클라이언트에 보내주는 방식.
+  rsc payload를 여러번 요청할 필요없이 처음 요청을 계속 유지하면서 클라이언트가 받을 수 있다.
+  리퀘스트와 리스폰스를 여러 번 주고받는 비용을 아낄 수 있다.
+  - PPR (Partial Preredendering)
+    `use cache`
+  - 
